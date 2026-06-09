@@ -1,1 +1,1 @@
-# daily-app
+# Daily App
