@@ -1,0 +1,15 @@
+docs:
+  - changed-files:
+      - any-glob-to-any-file: docs/**
+
+feat:
+  - head-branch:
+      - '^feat'
+
+refactor:
+  - head-branch:
+      - '^refactor'
+
+fix:
+  - head-branch:
+      - '^fix'
