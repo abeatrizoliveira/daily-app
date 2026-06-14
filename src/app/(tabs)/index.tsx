@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from "react-native";
-import Navbar from "../../shared/components/navigation-bar/navbar";
 
 export default function App() {
   return (
@@ -7,7 +6,6 @@ export default function App() {
       <View style={styles.content}>
         <Text>Olá, mundo!</Text>
       </View>
-      {/* <Navbar></Navbar> */}
     </View>
   );
 }
