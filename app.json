@@ -3,6 +3,7 @@
     "name": "daily-app",
     "slug": "daily-app",
     "version": "1.0.0",
+    "userInterfaceStyle": "automatic",
     "plugins": [
       "expo-router",
       [
@@ -20,7 +21,6 @@
     ],
     "orientation": "portrait",
     "icon": "./assets/img/icon.png",
-    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/img/splash-icon.png",

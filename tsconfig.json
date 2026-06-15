@@ -6,16 +6,16 @@
       "@shared/*": [
         "./src/shared/*"
       ],
-      "@features": [
+      "@features/*": [
         "./src/features/*"
       ],
-      "@navigation": [
+      "@navigation/*": [
         "./src/navigation/*"
       ],
-      "@themes": [
+      "@themes/*": [
         "./src/themes/*"
       ],
-      "@assets": [
+      "@assets/*": [
         "./assets/*"
       ]
     }
