@@ -11,7 +11,7 @@ export const CreateStyle = (theme: any) =>
       padding: 25,
     },
     container: {
-      backgroundColor: theme.colors.background,
+      backgroundColor: theme.colors.backgroundAlt,
       width: "100%",
       height: 60,
       borderRadius: 25,
