@@ -2,7 +2,7 @@ import { router, usePathname } from "expo-router";
 import { Animated } from "react-native";
 import { useRef, useEffect, ReactNode } from "react";
 import { useTheme } from "../../../context/themeContext";
-
+  
 export const useNavbar = () => {
     const { theme } = useTheme();
   const pathname = usePathname();

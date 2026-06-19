@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/themeContext";
-import { ThemeSelector } from "@features/theme/ThemeSelector";
 
 
 export default function App() {
@@ -11,7 +10,6 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.content}>
         <Text>Olá, mundo!</Text>
-        <ThemeSelector></ThemeSelector>
       </View>
     </View>
   );
