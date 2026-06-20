@@ -1,8 +1,10 @@
 import { router, usePathname } from "expo-router";
 import { Animated } from "react-native";
 import { useRef, useEffect, ReactNode } from "react";
-
+import { useTheme } from "../../../context/themeContext";
+  
 export const useNavbar = () => {
+    const { theme } = useTheme();
   const pathname = usePathname();
 
   const handleNavigation = (targetPath: string) => {
@@ -11,7 +13,7 @@ export const useNavbar = () => {
     }
   };
   const getColor = (route: string) =>
-    pathname === route ? "#A479D2" : "#2b2b2b";
+    pathname === route ? theme.colors.secundary : theme.colors.text;
 
   return {
     pathname,

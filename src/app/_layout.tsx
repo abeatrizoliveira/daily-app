@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { View } from "react-native";
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from "expo-splash-screen";
+import { ThemeProvider } from "../context/themeContext";
 
 SplashScreen.setOptions({
   duration: 1000,
@@ -8,10 +9,11 @@ SplashScreen.setOptions({
 });
 
 export default function RootLayout() {
-
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff"}}>
-      <Stack screenOptions={{ headerShown: false }} />
-    </View>
+    <ThemeProvider>
+      <View style={{ flex: 1 }}>
+        <Stack screenOptions={{ headerShown: false }} />
+      </View>
+    </ThemeProvider>
   );
 }

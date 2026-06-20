@@ -1,15 +1,16 @@
 import { Animated, View, Pressable } from "react-native";
 import { useRef, useEffect } from "react";
-import style from "./navbar.style";
+import {CreateStyle} from "./navbar.style";
 import { LinearGradient } from "expo-linear-gradient";
 import { Pencil, Icon } from "lucide-react-native";
 import { bee, fruit } from "@lucide/lab";
 import { useNavbar, NavIcon } from "./navbar.hooks";
-import { usePathname } from "expo-router";
+import { useTheme } from "../../../context/themeContext";
 
 const Navbar = () => {
+  const { theme } = useTheme();
+  const style = CreateStyle(theme);
   const { handleNavigation, getColor } = useNavbar();
-  const pathname = usePathname();
 
   return (
     <LinearGradient
