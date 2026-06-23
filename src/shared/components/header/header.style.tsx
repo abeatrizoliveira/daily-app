@@ -11,7 +11,6 @@ export const CreateStyle = (theme: any) =>
     },
     content: {
       alignItems: "center",
-
     },
     btnText: {
       flexDirection: "row",
@@ -22,7 +21,7 @@ export const CreateStyle = (theme: any) =>
       borderRadius: 5,
       backgroundColor:
         theme.colors.background == "#fff"
-          ? theme.colors.secundary
+          ? `rgba(164,121,210,0.5)`
           : theme.colors.primary,
     },
   });
