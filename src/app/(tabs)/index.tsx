@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/themeContext";
+import Header from "@shared/components/header/header";
 
 
 export default function App() {

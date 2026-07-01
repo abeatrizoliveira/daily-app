@@ -17,7 +17,8 @@
           },
           "imageWidth": 200
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "orientation": "portrait",
     "icon": "./assets/img/icon.png",
