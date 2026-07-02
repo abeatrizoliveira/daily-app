@@ -1,15 +1,29 @@
-import { StyleSheet, Modal, View } from "react-native";
+import { StyleSheet, Modal, View, Pressable } from "react-native";
 import Task from "@features/tasks/task";
-import Header from "@shared/components/header/header";
+import { useState } from "react";
+import { Plus } from "lucide-react-native";
 
 export default function tasks() {
+  const [openTask, isOpenTask] = useState<boolean>(false);
+  const [idTask, isIdTask] = useState<number | null>(null);
+  function handleTask() {
+    isOpenTask(true);
+    isIdTask(null);
+  }
+  function closeTask() {
+    isOpenTask(false);
+  }
+
   return (
     <View style={styles.container}>
-      <Modal 
-        animationType="slide"
-        transparent={true}>
-        <Task id={null} />
-      </Modal>
+      <Pressable onPress={handleTask}>
+        <Plus></Plus>
+      </Pressable>
+      {openTask && (
+        <Modal animationType="slide" transparent={true} onRequestClose={closeTask}>
+          <Task id={idTask} onCloseTask={closeTask} />
+        </Modal>
+      )}
     </View>
   );
 }
@@ -28,6 +42,5 @@ const styles = StyleSheet.create({
   taskContainer: {
     width: "80%",
     height: 20,
-    backgroundColor: "#ff2",
   },
 });

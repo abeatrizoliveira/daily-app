@@ -1,20 +1,28 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./task.style";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BlurView } from "expo-blur";
+import { X } from "lucide-react-native";
 
-const Task = ({ id }: any) => {
+const Task = ({ id, onCloseTask }: any) => {
   const { theme } = useTheme();
   const style = CreateStyle(theme);
 
   return (
-    <View style={style.container}>
+    <BlurView
+      intensity={50}
+      experimentalBlurMethod={"dimezisBlurView"}
+      blurReductionFactor={20}
+      style={style.container}
+    >
       <View style={style.taskContainer}>
-        <Text>{id === null ? "Texto" : "Olá"}
-        </Text>
+        <Pressable onPress={onCloseTask}>
+          <X></X>
+        </Pressable>
+        <Text>{id === null ? "Texto" : "Olá"}</Text>
         <Text>Descrição</Text>
       </View>
-    </View>
+    </BlurView>
   );
 };
 

@@ -5,7 +5,6 @@ export const CreateStyle = (theme: any) =>
     container: {
       flex: 1,
       width: '100%',
-      backgroundColor: theme.colors.background,
       justifyContent: "center",
       alignItems: "center",
       position: 'relative'
@@ -14,5 +13,8 @@ export const CreateStyle = (theme: any) =>
       height: "70%",
       width: '80%',
       backgroundColor: theme.colors.backgroundAlt,
+      borderRadius: 30,
+      borderWidth: 2,
+      borderColor: theme.colors.secundary
     },
   });
