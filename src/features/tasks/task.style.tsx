@@ -4,17 +4,22 @@ export const CreateStyle = (theme: any) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      width: '100%',
+      width: "100%",
       justifyContent: "center",
       alignItems: "center",
-      position: 'relative'
+      position: "relative",
     },
     taskContainer: {
       height: "70%",
-      width: '80%',
+      width: "80%",
       backgroundColor: theme.colors.backgroundAlt,
       borderRadius: 30,
       borderWidth: 2,
-      borderColor: theme.colors.secundary
+      borderColor: theme.colors.secundary,
+      padding: 15,
     },
+    buttonContent: {
+      alignItems: "flex-end",
+    },
+    textContent: {},
   });
