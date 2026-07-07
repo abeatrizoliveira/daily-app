@@ -1,17 +1,18 @@
 import { StyleSheet, Modal, View, Pressable } from "react-native";
 import Task from "@features/tasks/task";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react-native";
-import { ThemeSelector } from "@features/theme/ThemeSelector";
 import { useTheme } from "../../context/themeContext";
+import { supabase } from "@utils/supabase";
 
 export default function tasks() {
   const [openTask, isOpenTask] = useState<boolean>(false);
-  const [idTask, isIdTask] = useState<number | null>(null);
-    const { theme } = useTheme();
-  
-    const style = CreateStyle(theme);
-  
+  const [idTask, isIdTask] = useState<number | null>();
+  const [userId, setUserId] = useState<any>();
+  const { theme } = useTheme();
+
+  const style = CreateStyle(theme);
+
   function handleTask() {
     isOpenTask(true);
     isIdTask(null);
@@ -20,19 +21,47 @@ export default function tasks() {
     isOpenTask(false);
   }
 
+  useEffect(() => {
+    async function getUser() {
+      const { data, error } = await supabase.auth.getUser();
+      if (error) console.log(error);
+      else {
+        setUserId(data.user.id);
+      }
+    }
+    getUser();
+  }, []);
+
+  // useEffect(() => {
+  //   async function getTarefa() {
+  //     if (userId) {
+  //       const { data, error } = await supabase
+  //         .from("tarefa")
+  //         .select("*")
+  //         .eq("id_usuario", userId);
+  //       if (error) console.log(error);
+  //       else {
+  //         if (data && data.length > 0) {
+  //           isIdTask(data[0].id_tarefa);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   getTarefa();
+  // }, [userId]);
+
   return (
     <View style={style.container}>
       <Pressable onPress={handleTask}>
         <Plus></Plus>
       </Pressable>
-      <ThemeSelector />
       {openTask && (
         <Modal
           animationType="slide"
           transparent={true}
           onRequestClose={closeTask}
         >
-          <Task id={idTask} onCloseTask={closeTask} />
+          <Task id={idTask} userId={userId} onCloseTask={closeTask} />
         </Modal>
       )}
     </View>

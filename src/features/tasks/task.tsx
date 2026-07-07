@@ -1,30 +1,34 @@
 // Importações
-import { View, Text, Pressable, TextInput } from "react-native";
+import { View, Text, Pressable, TextInput, Platform } from "react-native";
 import { EnrichedMarkdownText } from "react-native-enriched-markdown";
 import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./task.style";
 import { BlurView } from "expo-blur";
 import { X, Pencil, Eye, Check, Save, Tag } from "lucide-react-native";
 import GlobalStyle from "@themes/global-style";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createMarkdownStyle } from "@themes/markdown-style";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { supabase } from "@utils/supabase";
+import { getTask, saveTask } from "./task.repository";
 
-const Task = ({ id, onCloseTask }: any) => {
+const Task = ({ id, onCloseTask, userId }: any) => {
   // Definição de variáveis e estados.
   const { theme } = useTheme();
-  const taskTitle = "oi"; // Apenas para testar, APAGAR DEPOIS
-  const taskDesc = "tchau"; // Apenas para testar, APAGAR DEPOIS
   const style = CreateStyle(theme);
   const global = GlobalStyle(theme);
-  const [title, setTitle] = useState(id === null ? "" : taskTitle);
-  const [desc, setDesc] = useState(id === null ? "" : taskDesc);
-  const [editing, isEditing] = useState(false);
+  const [title, setTitle] = useState(id === null ? "" : "taskTitle");
+  const [desc, setDesc] = useState(id === null ? "" : "oi");
+  const [date, setDate] = useState(new Date());
+  const [editing, isEditing] = useState(id === null ? true : false);
   const [editIcon, setEditIcon] = useState(
-    <Pencil color={theme.colors.background} />,
+    id === null ? (
+      <Eye color={theme.colors.background} />
+    ) : (
+      <Pencil color={theme.colors.background} />
+    ),
   );
-  const markdown = `*Welcome to Markdown!* 
-- [ ] estudar
-- [x] jogar`; // Apenas para testar, APAGAR DEPOIS
 
   // Definição de funções
   const handleEdit = () => {
@@ -37,6 +41,30 @@ const Task = ({ id, onCloseTask }: any) => {
       setEditIcon(<Eye color={theme.colors.background} />);
     }
   };
+
+  const handleSave = () => {
+    async function save() {
+      if (!title) {
+        alert("Digite o título da tarefa.");
+        return;
+      }
+      const { error } = await saveTask(title, desc, date, userId);
+      if (error) console.log(error);
+    }
+    save();
+  };
+
+  useEffect(() => {
+    if (!id) return;
+    async function loadTask() {
+      const { data, error } = await getTask(id);
+      if (error) console.log(error);
+
+      setTitle(data?.titulo);
+      setDesc(data?.descricao);
+    }
+    loadTask();
+  }, [id]);
 
   return (
     <BlurView
@@ -51,23 +79,84 @@ const Task = ({ id, onCloseTask }: any) => {
           </Pressable>
         </View>
         <View style={style.textContent}>
-          <TextInput
-            style={[global.h2, { fontWeight: 400 }]}
-            placeholder="Título da tarefa..."
-            value={title}
-            onChangeText={setTitle}
-            placeholderTextColor={theme.colors.textAlt}
-          ></TextInput>
+          <View style={style.topTextContent}>
+            {editing ? (
+              <TextInput
+                style={[
+                  global.h2,
+                  { fontWeight: 400, flex: 2, margin: 0, padding: 0 },
+                ]}
+                placeholder="Título da tarefa..."
+                value={title}
+                onChangeText={setTitle}
+                placeholderTextColor={theme.colors.textAlt}
+              ></TextInput>
+            ) : (
+              <Text
+                style={[
+                  global.h2,
+                  {
+                    fontWeight: 400,
+                    flex: 2,
+                    color:
+                      title == "" ? theme.colors.textAlt : theme.colors.text,
+                  },
+                ]}
+              >
+                {title != "" ? title : "Título da tarefa..."}
+              </Text>
+            )}
+
+            {editing ? (
+              Platform.OS === "ios" ? (
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  onValueChange={(event, selectedDate) => setDate(selectedDate)}
+                />
+              ) : (
+                <Pressable
+                  onPress={() =>
+                    DateTimePickerAndroid.open({
+                      value: date,
+                      mode: "date",
+                      onValueChange: (event, selectedDate) => {
+                        if (selectedDate) {
+                          setDate(selectedDate);
+                        }
+                      },
+                    })
+                  }
+                >
+                  <Text style={style.dateText}>
+                    {date.toLocaleDateString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                    })}
+                  </Text>
+                </Pressable>
+              )
+            ) : (
+              <Text style={style.dateText}>
+                {date.toLocaleDateString("pt-BR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                })}
+              </Text>
+            )}
+          </View>
+
           {editing ? (
             <TextInput
               style={global.p}
               placeholder="Descrição da tarefa..."
-              value={markdown}
+              value={desc}
               onChangeText={setDesc}
+              multiline={true}
             ></TextInput>
           ) : (
             <EnrichedMarkdownText
-              markdown={markdown}
+              markdown={desc}
               flavor="github"
               markdownStyle={createMarkdownStyle(theme)}
             />
@@ -83,7 +172,7 @@ const Task = ({ id, onCloseTask }: any) => {
             </Pressable>
 
             <Pressable
-              // onPress={}
+              onPress={handleSave}
               style={[global.pressable, style.button]}
             >
               <Save color={theme.colors.background} />
