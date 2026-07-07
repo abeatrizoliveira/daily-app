@@ -3,6 +3,7 @@ export const darkTheme = {
         background: "#2b2b2b",
         backgroundAlt: "#1d1d1d",
         text: "#FFFCF1",
+        textAlt: "#fffcf181",
         primary: "#FFEA98",
         bgPrimary: "rgba(255,203,91,0.25)",
         secundary:"#B389DF",
