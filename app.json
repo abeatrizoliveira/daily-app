@@ -9,25 +9,21 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#232323",
-          "image": "./assets/splash-icon.png",
+          "backgroundColor": "#FFFCF1",
+          "image": "./assets/img/splash-icon.png",
           "dark": {
-            "image": "./assets/splash-icon-dark.png",
-            "backgroundColor": "#000000"
+            "image": "./assets/img/splash-icon-dark.png",
+            "backgroundColor": "#2b2b2b"
           },
           "imageWidth": 200
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      "react-native-enriched-markdown"
     ],
     "orientation": "portrait",
     "icon": "./assets/img/icon.png",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/img/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true
     },
@@ -36,12 +32,17 @@
         "foregroundImage": "./assets/img/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.dailyapp"
     },
     "web": {
       "favicon": "./assets/img/favicon.png"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c35d661d-8639-4859-9eb7-51c7929fee59"
+      }
     }
   }
 }
