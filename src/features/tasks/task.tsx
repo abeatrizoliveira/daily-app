@@ -11,6 +11,7 @@ import { createMarkdownStyle } from "@themes/markdown-style";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { supabase } from "@utils/supabase";
+import { getTask, saveTask } from "./task.repository";
 
 const Task = ({ id, onCloseTask, userId }: any) => {
   // Definição de variáveis e estados.
@@ -41,38 +42,28 @@ const Task = ({ id, onCloseTask, userId }: any) => {
     }
   };
 
-  const handleSave = async () => {
-    if(title != ""){
-    async function saveTask() {
-      const { error } = await supabase
-        .from("tarefa")
-        .insert({ titulo: title, descricao: desc, data_tarefa: date, id_usuario: userId });
-      if (error) {
-        console.log(error);
+  const handleSave = () => {
+    async function save() {
+      if (!title) {
+        alert("Digite o título da tarefa.");
+        return;
       }
+      const { error } = await saveTask(title, desc, date, userId);
+      if (error) console.log(error);
     }
-    saveTask();
-  }else{
-    alert("O título da tarefa é obrigatório!");
-  }
+    save();
   };
 
   useEffect(() => {
-    if (id != null) {
-      async function getTask() {
-        const { data, error } = await supabase
-          .from("tarefa")
-          .select("titulo,descricao")
-          .eq("id_tarefa", id);
-        if (error) {
-          console.log(error);
-        } else {
-          setTitle(data[0].titulo);
-          setDesc(data[0].descricao);
-        }
-      }
-      getTask();
+    if (!id) return;
+    async function loadTask() {
+      const { data, error } = await getTask(id);
+      if (error) console.log(error);
+
+      setTitle(data?.titulo);
+      setDesc(data?.descricao);
     }
+    loadTask();
   }, [id]);
 
   return (
@@ -89,19 +80,30 @@ const Task = ({ id, onCloseTask, userId }: any) => {
         </View>
         <View style={style.textContent}>
           <View style={style.topTextContent}>
-
-
             {editing ? (
               <TextInput
-                style={[global.h2, { fontWeight: 400, flex: 2, margin: 0, padding: 0}]}
+                style={[
+                  global.h2,
+                  { fontWeight: 400, flex: 2, margin: 0, padding: 0 },
+                ]}
                 placeholder="Título da tarefa..."
                 value={title}
                 onChangeText={setTitle}
                 placeholderTextColor={theme.colors.textAlt}
               ></TextInput>
             ) : (
-              <Text style={[global.h2, { fontWeight: 400, flex: 2, color: title == "" ? theme.colors.textAlt : theme.colors.text} ]}>
-                {title != "" ? title : "Título da tarefa..." }
+              <Text
+                style={[
+                  global.h2,
+                  {
+                    fontWeight: 400,
+                    flex: 2,
+                    color:
+                      title == "" ? theme.colors.textAlt : theme.colors.text,
+                  },
+                ]}
+              >
+                {title != "" ? title : "Título da tarefa..."}
               </Text>
             )}
 
@@ -126,19 +128,22 @@ const Task = ({ id, onCloseTask, userId }: any) => {
                     })
                   }
                 >
-                 <Text style={style.dateText}>{date.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit'
-              })}</Text>
+                  <Text style={style.dateText}>
+                    {date.toLocaleDateString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                    })}
+                  </Text>
                 </Pressable>
               )
             ) : (
-              <Text style={style.dateText}>{date.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit'
-              })}</Text>
+              <Text style={style.dateText}>
+                {date.toLocaleDateString("pt-BR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                })}
+              </Text>
             )}
-
           </View>
 
           {editing ? (
