@@ -16,11 +16,29 @@ export const CreateStyle = (theme: any) =>
       backgroundColor: theme.colors.backgroundAlt,
       borderRadius: 30,
       borderWidth: 2,
-      borderColor: theme.colors.background == "#fff" ? theme.colors.secundary : theme.colors.primary,
+      borderColor:
+        theme.colors.background == "#fff"
+          ? theme.colors.secundary
+          : theme.colors.primary,
       padding: 20,
     },
     textContent: {
       height: "85%",
+    },
+    topTextContent: {
+      flexDirection: "row",
+      width: "100%",
+      height: "auto",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    dateText: {
+      color:
+        theme.colors.background == "#fff"
+          ? theme.colors.secundary
+          : theme.colors.primary,
+          fontWeight: 600,
+          fontSize: 16,
     },
     buttonContent: {
       alignItems: "flex-end",
