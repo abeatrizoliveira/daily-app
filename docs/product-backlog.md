@@ -11,13 +11,14 @@
 | FT-01 | US-01        | Implementar barra de navegação             | 1      | 8          |
 | FT-02 | US-02        | Implementar sistema de tema claro e escuro | 1      | 8          |
 | FT-03 | US-03        | Implementar adição de tarefas              | 2      | 8          |
-| FT-04 | US-04        | Implementar exclusão de tarefas            | 2      | 8          |
-| FT-05 | US-05        | Implementar método pomodoro                | 2      | 8          |
-| FT-06 | US-09        | Implementar tela Home                      | 2      | 5          |
-| FT-07 | US-06        | Implementar cadastro                       | 3      | 7          |
-| FT-08 | US-07        | Implementar login                          | 3      | 7          |
-| FT-09 | US-08        | Implementar update de informações          | 3      | 6          |
-| FT-10 | US-02, US-08 | Implementar tela de configurações          | 3      | 5          |
+| FT-04 | US-04        | Implementar conclusão de tarefas           | 2      | 8          |
+| FT-05 | US-05        | Implementar exclusão de tarefas            | 2      | 8          |
+| FT-06 | US-06        | Implementar método pomodoro                | 2      | 8          |
+| FT-07 | US-07        | Implementar tela Home                      | 2      | 5          |
+| FT-08 | US-08        | Implementar cadastro                       | 3      | 7          |
+| FT-09 | US-09        | Implementar login                          | 3      | 7          |
+| FT-10 | US-10        | Implementar update de informações          | 3      | 6          |
+| FT-11 | US-02, US-10 | Implementar tela de configurações          | 3      | 5          |
 
 <br>
 

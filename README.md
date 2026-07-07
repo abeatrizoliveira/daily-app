@@ -12,7 +12,7 @@
 
 ## 📑 Sumário
 
-[O que é](#-o-que-é) | [Estrutura do Projeto](#-estrutura-do-projeto) | [Cronograma]() | [Tecnologias]() | [Instalação]() | [Considerações e Atribuições]()
+[O que é](#-o-que-é) | [Estrutura do Projeto](#-estrutura-do-projeto) | [Cronograma]() | [Tecnologias]() | [Documentação]() |[Instalação]() | [Considerações e Atribuições]()
 
 <br>
 
@@ -67,9 +67,9 @@ O desenvolvimento da aplicação segue a metodologia ágil SCRUM, divida em trê
 
 | Sprint    | Início | Fim   | Status | Relatório |
 | :-------- | :----- | :---- | :----- | :-------- |
-| Sprint 01 | 09/06  | 25/06 | ✅     | [Relatório 01]() |
+| Sprint 01 | 09/06  | 25/06 | ✅     | [Relatório 01](https://github.com/abeatrizoliveira/daily-app/blob/develop/docs/sprint-backlog1.md) |
 | Sprint 02 | 29/07  | 16/06 | 🚧     | [Relatório 02]() |
-| Sprint 03 | 20/07  | 06/08 | ⬜     | [Relatório 03]()  |
+| Sprint 03 | 20/07  | 06/08 | ⬜     | Relatório 03  |
 
 #### Legenda:
 
@@ -98,6 +98,12 @@ Segue abaixo as tecnologias utilizadas no desenvolvimento do aplicativo e suas r
 |                               <img src="https://skillicons.dev/icons?i=vscode" /> <br> VS Code                                | 1.127.0 |
 
 <br>
+
+## 🗃️ Documentação
+<p align="justify">
+A documentação do Daily Bee reúne backlogs, Definition of Done, user stories e o design. Ela registra e organiza todas as atividades e decisões do projeto. <br>
+Ela pode ser encontrada <a href="https://github.com/abeatrizoliveira/daily-app/blob/develop/docs">aqui<a>.
+</p>
 
 ## ⚙️ Instalação
 
