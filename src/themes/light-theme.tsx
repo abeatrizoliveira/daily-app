@@ -3,6 +3,7 @@ export const lightTheme = {
         background: "#fff",
         backgroundAlt: "#FFFCF1",
         text: "#2b2b2b",
+        textAlt: "#2b2b2b91",
         primary: "#ffba25",
         bgPrimary: "rgba(255,203,91,0.25)",
         secundary:"#A479D2",
