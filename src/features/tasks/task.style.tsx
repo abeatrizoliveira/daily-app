@@ -51,12 +51,12 @@ export const CreateStyle = (theme: any) =>
       justifyContent: "space-between",
     },
     normalButton: {
-      gap: 15,
+      gap: 10,
       flexDirection: "row",
     },
     button: {
-      width: 44,
-      height: 44,
+      width: 40,
+      height: 40,
       borderRadius: 10,
       backgroundColor:
         theme.colors.background == "#fff"

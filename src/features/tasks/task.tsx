@@ -4,14 +4,14 @@ import { EnrichedMarkdownText } from "react-native-enriched-markdown";
 import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./task.style";
 import { BlurView } from "expo-blur";
-import { X, Pencil, Eye, Check, Save, Tag } from "lucide-react-native";
+import { X, Pencil, Eye, Check, Save, Tag, Trash } from "lucide-react-native";
 import GlobalStyle from "@themes/global-style";
 import { useState, useEffect } from "react";
 import { createMarkdownStyle } from "@themes/markdown-style";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { supabase } from "@utils/supabase";
-import { getTask, saveTask } from "./task.repository";
+import { deleteTask, getTask, saveTask } from "./task.repository";
+import Toast from "react-native-toast-message";
 
 const Task = ({ id, onCloseTask, userId }: any) => {
   // Definição de variáveis e estados.
@@ -24,22 +24,16 @@ const Task = ({ id, onCloseTask, userId }: any) => {
   const [editing, isEditing] = useState(id === null ? true : false);
   const [editIcon, setEditIcon] = useState(
     id === null ? (
-      <Eye color={theme.colors.background} />
+      <Eye color={theme.colors.background} size={24} />
     ) : (
-      <Pencil color={theme.colors.background} />
+      <Pencil color={theme.colors.background} size={24} />
     ),
   );
 
   // Definição de funções
   const handleEdit = () => {
     // Função para habilitar edição.
-    if (editing) {
-      isEditing(false);
-      setEditIcon(<Pencil color={theme.colors.background} />);
-    } else {
-      isEditing(true);
-      setEditIcon(<Eye color={theme.colors.background} />);
-    }
+    isEditing((prev) => !prev);
   };
 
   const handleSave = () => {
@@ -65,6 +59,22 @@ const Task = ({ id, onCloseTask, userId }: any) => {
     }
     loadTask();
   }, [id]);
+
+  const handleDelete = () => {
+    if (!id) return;
+    async function removeTask() {
+      const { error } = await deleteTask(id);
+      if (error) console.log(error);
+    }
+    removeTask();
+    Toast.show({
+      type: "error",
+      text1: "Deletado com sucesso!",
+      visibilityTime: 3000,
+      position: "bottom",
+    });
+    onCloseTask();
+  };
 
   return (
     <BlurView
@@ -166,23 +176,86 @@ const Task = ({ id, onCloseTask, userId }: any) => {
           <View style={style.normalButton}>
             <Pressable
               // onPress={}
-              style={[global.pressable, style.button]}
+              style={({ pressed }) => [
+                global.pressable,
+                style.button,
+                {
+                  backgroundColor: pressed
+                    ? theme.colors.background == "#fff"
+                      ? theme.colors.secundaryAlt
+                      : theme.colors.primaryAlt
+                    : theme.colors.background == "#fff"
+                      ? theme.colors.secundary
+                      : theme.colors.primary,
+                  transform: [{ scale: pressed ? 0.95 : 1 }],
+                },
+              ]}
             >
-              <Tag color={theme.colors.background} />
+              <Tag color={theme.colors.background} size={24} />
             </Pressable>
 
             <Pressable
               onPress={handleSave}
-              style={[global.pressable, style.button]}
+              style={({ pressed }) => [
+                global.pressable,
+                style.button,
+                {
+                  backgroundColor: pressed
+                    ? theme.colors.background == "#fff"
+                      ? theme.colors.secundaryAlt
+                      : theme.colors.primaryAlt
+                    : theme.colors.background == "#fff"
+                      ? theme.colors.secundary
+                      : theme.colors.primary,
+                  transform: [{ scale: pressed ? 0.95 : 1 }],
+                },
+              ]}
             >
-              <Save color={theme.colors.background} />
+              <Save color={theme.colors.background} size={24} />
             </Pressable>
 
             <Pressable
               onPress={handleEdit}
-              style={[global.pressable, style.button]}
+              style={({ pressed }) => [
+                global.pressable,
+                style.button,
+                {
+                  backgroundColor: pressed
+                    ? theme.colors.background == "#fff"
+                      ? theme.colors.secundaryAlt
+                      : theme.colors.primaryAlt
+                    : theme.colors.background == "#fff"
+                      ? theme.colors.secundary
+                      : theme.colors.primary,
+                  transform: [{ scale: pressed ? 0.95 : 1 }],
+                },
+              ]}
             >
-              {editIcon}
+              {editing ? (
+                <Eye color={theme.colors.background} size={24} />
+              ) : (
+                <Pencil color={theme.colors.background} size={24} />
+              )}
+            </Pressable>
+
+            <Pressable
+              onPress={handleDelete}
+              style={({ pressed }) => [
+                global.pressable,
+                style.button,
+                {
+                  backgroundColor: pressed
+                    ? theme.colors.background == "#fff"
+                      ? theme.colors.secundaryAlt
+                      : theme.colors.primaryAlt
+                    : theme.colors.background == "#fff"
+                      ? theme.colors.secundary
+                      : theme.colors.primary,
+                  transform: [{ scale: pressed ? 0.95 : 1 }],
+                },
+              ]}
+            >
+              <Trash color={theme.colors.background} size={24} />
             </Pressable>
           </View>
 
