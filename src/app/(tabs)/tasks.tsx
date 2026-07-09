@@ -30,25 +30,27 @@ export default function tasks() {
       }
     }
     getUser();
-  }, []);
+  });
 
-  // useEffect(() => {
-  //   async function getTarefa() {
-  //     if (userId) {
-  //       const { data, error } = await supabase
-  //         .from("tarefa")
-  //         .select("*")
-  //         .eq("id_usuario", userId);
-  //       if (error) console.log(error);
-  //       else {
-  //         if (data && data.length > 0) {
-  //           isIdTask(data[0].id_tarefa);
-  //         }
-  //       }
-  //     }
-  //   }
-  //   getTarefa();
-  // }, [userId]);
+  useEffect(() => {
+    async function getTarefa() {
+      if (userId) {
+        const { data, error } = await supabase
+          .from("tarefa")
+          .select("*")
+          .eq("id_usuario", userId)
+        if (error) console.log(error);
+        else {
+          if (data && data.length > 0) {
+            isIdTask(data[0].id_tarefa);
+          }
+        }
+      }
+    }
+    getTarefa();
+  });
+
+  console.log(idTask)
 
   return (
     <View style={style.container}>

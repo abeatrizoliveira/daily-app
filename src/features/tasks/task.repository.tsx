@@ -21,3 +21,9 @@ export async function saveTask(
     id_usuario: userId,
   });
 }
+export async function deleteTask(id: number) {
+  return await supabase
+    .from("tarefa")
+    .delete()
+    .eq("id_tarefa", id);
+}
