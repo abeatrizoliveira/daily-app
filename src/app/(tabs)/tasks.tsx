@@ -15,7 +15,7 @@ export default function tasks() {
 
   function handleTask() {
     isOpenTask(true);
-    // isIdTask(null);
+    isIdTask(null);
   }
   function closeTask() {
     isOpenTask(false);
@@ -30,7 +30,7 @@ export default function tasks() {
       }
     }
     getUser();
-  }, [openTask]);
+  });
 
   useEffect(() => {
     async function getTarefa() {
@@ -48,7 +48,7 @@ export default function tasks() {
       }
     }
     getTarefa();
-  }, [userId]);
+  });
 
   console.log(idTask)
 

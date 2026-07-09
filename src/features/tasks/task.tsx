@@ -68,8 +68,9 @@ const Task = ({ id, onCloseTask, userId }: any) => {
     }
     removeTask();
     Toast.show({
-      type: "error",
-      text1: "Deletado com sucesso!",
+      type: "success",
+      text1: "Deletado com sucesso.",
+      text2: "Sua tarefa foi excluída.",
       visibilityTime: 3000,
       position: "bottom",
     });

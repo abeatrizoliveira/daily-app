@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { ThemeProvider } from "../context/themeContext";
 import Header from "@shared/components/header/header";
-import Toast from "react-native-toast-message";
+import ThemedToast from "@shared/components/themedToast";
 
 SplashScreen.setOptions({
   duration: 1000,
@@ -16,7 +16,7 @@ export default function RootLayout() {
       <View style={{ flex: 1 }}>
         <Header></Header>
         <Stack screenOptions={{ headerShown: false }} />
-        <Toast />
+        <ThemedToast />
       </View>
     </ThemeProvider>
   );
