@@ -3,7 +3,7 @@ import { supabase } from "@utils/supabase";
 export async function getTask(id: number) {
   return await supabase
     .from("tarefa")
-    .select("titulo,descricao")
+    .select("titulo,descricao, data_tarefa")
     .eq("id_tarefa", id)
     .single();
 }

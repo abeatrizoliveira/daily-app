@@ -26,7 +26,9 @@ const Task = ({
   const global = GlobalStyle(theme);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(
+    id === null ? new Date() : null,
+  );
   const [editing, isEditing] = useState(id === null ? true : false);
 
   // Definição de funções
@@ -62,13 +64,20 @@ const Task = ({
 
   useEffect(() => {
     if (!id) return;
+
     async function loadTask() {
       const { data, error } = await getTask(id);
-      if (error) console.log(error);
 
-      setTitle(data?.titulo);
-      setDesc(data?.descricao);
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      setTitle(data?.titulo ?? "");
+      setDesc(data?.descricao ?? "");
+      setDate(data?.data_tarefa ? new Date(data.data_tarefa) : null);
     }
+
     loadTask();
   }, [id]);
 
@@ -138,17 +147,21 @@ const Task = ({
             {editing ? (
               Platform.OS === "ios" ? (
                 <DateTimePicker
-                  value={date}
+                  value={date ?? new Date()}
                   mode="date"
-                  onValueChange={(event, selectedDate) => setDate(selectedDate)}
+                  onValueChange={(event, selectedDate) => {
+                    if (selectedDate) {
+                      setDate(selectedDate);
+                    }
+                  }}
                 />
               ) : (
                 <Pressable
                   onPress={() =>
                     DateTimePickerAndroid.open({
-                      value: date,
+                      value: date ?? new Date(),
                       mode: "date",
-                      onValueChange: (event, selectedDate) => {
+                      onChange: (event, selectedDate) => {
                         if (selectedDate) {
                           setDate(selectedDate);
                         }
@@ -157,19 +170,23 @@ const Task = ({
                   }
                 >
                   <Text style={style.dateText}>
-                    {date.toLocaleDateString("pt-BR", {
-                      day: "2-digit",
-                      month: "2-digit",
-                    })}
+                    {date
+                      ? date.toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                        })
+                      : "Sem data"}
                   </Text>
                 </Pressable>
               )
             ) : (
               <Text style={style.dateText}>
-                {date.toLocaleDateString("pt-BR", {
-                  day: "2-digit",
-                  month: "2-digit",
-                })}
+                {date
+                  ? date.toLocaleDateString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                    })
+                  : "Sem data"}
               </Text>
             )}
           </View>
