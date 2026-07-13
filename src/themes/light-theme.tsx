@@ -2,6 +2,7 @@ export const lightTheme = {
     colors: {
         background: "#fff",
         backgroundAlt: "#FFFCF1",
+        backgroundAltSecundary: "#e3e0d5",
         text: "#2b2b2b",
         textAlt: "#2b2b2b91",
         primary: "#ffba25",

@@ -13,22 +13,21 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { deleteTask, getTask, saveTask } from "./task.repository";
 import Toast from "react-native-toast-message";
 
-const Task = ({ id, onCloseTask, userId }: any) => {
+const Task = ({
+  id,
+  onCloseTask,
+  userId,
+  onTaskCreated,
+  onTaskDeleted,
+}: any) => {
   // Definição de variáveis e estados.
   const { theme } = useTheme();
   const style = CreateStyle(theme);
   const global = GlobalStyle(theme);
-  const [title, setTitle] = useState(id === null ? "" : "taskTitle");
-  const [desc, setDesc] = useState(id === null ? "" : "oi");
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
   const [date, setDate] = useState(new Date());
   const [editing, isEditing] = useState(id === null ? true : false);
-  const [editIcon, setEditIcon] = useState(
-    id === null ? (
-      <Eye color={theme.colors.background} size={24} />
-    ) : (
-      <Pencil color={theme.colors.background} size={24} />
-    ),
-  );
 
   // Definição de funções
   const handleEdit = () => {
@@ -36,16 +35,29 @@ const Task = ({ id, onCloseTask, userId }: any) => {
     isEditing((prev) => !prev);
   };
 
-  const handleSave = () => {
-    async function save() {
-      if (!title) {
-        alert("Digite o título da tarefa.");
-        return;
-      }
-      const { error } = await saveTask(title, desc, date, userId);
-      if (error) console.log(error);
+  const handleSave = async () => {
+    if (!title.trim()) {
+      alert("Digite o título da tarefa.");
+      return;
     }
-    save();
+
+    const { data, error } = await saveTask(title, desc, date, userId);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    onTaskCreated(data);
+    onCloseTask();
+
+    Toast.show({
+      type: "success",
+      text1: "Criado com sucesso.",
+      text2: "Sua tarefa foi criada.",
+      visibilityTime: 3000,
+      position: "bottom",
+    });
   };
 
   useEffect(() => {
@@ -60,13 +72,19 @@ const Task = ({ id, onCloseTask, userId }: any) => {
     loadTask();
   }, [id]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!id) return;
-    async function removeTask() {
-      const { error } = await deleteTask(id);
-      if (error) console.log(error);
+
+    const { error } = await deleteTask(id);
+
+    if (error) {
+      console.log(error);
+      return;
     }
-    removeTask();
+
+    onTaskDeleted(id);
+    onCloseTask();
+
     Toast.show({
       type: "success",
       text1: "Deletado com sucesso.",
@@ -74,7 +92,6 @@ const Task = ({ id, onCloseTask, userId }: any) => {
       visibilityTime: 3000,
       position: "bottom",
     });
-    onCloseTask();
   };
 
   return (

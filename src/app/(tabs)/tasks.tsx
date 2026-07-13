@@ -5,6 +5,7 @@ import {
   Pressable,
   FlatList,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import Task from "@features/tasks/task";
 import { useState, useEffect } from "react";
@@ -14,17 +15,18 @@ import { supabase } from "@utils/supabase";
 import GlobalStyle from "@themes/global-style";
 
 export default function tasks() {
-  const [openTask, isOpenTask] = useState<boolean>(false);
-  const [idTask, isIdTask] = useState<number | null>();
-  const [userId, setUserId] = useState<any>();
+  const [loading, setLoading] = useState(true);
+  const [openTask, isOpenTask] = useState(false);
+  const [idTask, isIdTask] = useState<number | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [dataTask, setDataTask] = useState<Tarefa[]>([]);
 
   interface Tarefa {
     id_tarefa: number;
     titulo: string;
-    data_tarefa: Date;
+    data_tarefa: Date | string | null;
   }
 
-  const [dataTask, setDataTask] = useState<Tarefa[]>();
   const { theme } = useTheme();
 
   const style = CreateStyle(theme);
@@ -34,42 +36,96 @@ export default function tasks() {
     isOpenTask(true);
     isIdTask(null);
   }
+
+  function handleOpenTask(id: number) {
+    isOpenTask(true);
+    isIdTask(id);
+  }
+
+  function handleNewTask(task: Tarefa) {
+    setDataTask((prev) => [task, ...prev]);
+  }
+
+  function handleDeleteTask(id: number) {
+    setDataTask((prev) => prev.filter((task) => task.id_tarefa !== id));
+  }
+
   function closeTask() {
     isOpenTask(false);
   }
 
-  useEffect(() => {
-    async function getUser() {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) console.log(error);
-      else {
-        setUserId(data.user.id);
-      }
+  async function loadData() {
+    setLoading(true);
+
+    const { data: userData, error } = await supabase.auth.getUser();
+
+    if (error || !userData.user) {
+      setLoading(false);
+      return;
     }
-    getUser();
+
+    const id = userData.user.id;
+
+    setUserId(id);
+
+    const { data: tarefas, error: taskError } = await supabase
+      .from("tarefa")
+      .select("*")
+      .eq("id_usuario", id);
+
+    if (taskError) {
+      console.log(taskError);
+    } else {
+      setDataTask(tarefas ?? []);
+    }
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    loadData();
   }, []);
 
-  useEffect(() => {
-    async function getTarefa() {
-      if (userId) {
-        const { data, error } = await supabase
-          .from("tarefa")
-          .select("*")
-          .eq("id_usuario", userId);
-        if (error) console.log(error);
-        else {
-          if (data && data.length > 0) {
-            isIdTask(data[0].id_tarefa);
-            setDataTask(data);
+  function formatDate(value: Date | string | null | undefined) {
+    if (!value) return "Sem data";
+
+    const date = value instanceof Date ? value : new Date(value);
+
+    if (Number.isNaN(date.getTime())) return "Sem data";
+
+    const month = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${day} ${month[date.getMonth()]}`;
+  }
+
+  if (loading) {
+    return (
+      <View style={style.container}>
+        <ActivityIndicator
+          size="large"
+          color={
+            theme.colors.background == "#fff"
+              ? theme.colors.secundary
+              : theme.colors.primary
           }
-        }
-      }
-    }
-    getTarefa();
-  }, [userId]);
-
-  console.log(idTask);
-
+        />
+      </View>
+    );
+  }
   return (
     <View style={style.container}>
       <View style={style.buttons}>
@@ -140,10 +196,25 @@ export default function tasks() {
         data={dataTask}
         keyExtractor={(item) => item.id_tarefa.toString()}
         renderItem={({ item }) => (
-          <View style={style.TaskContainer}>
-            <Text>{item.titulo}</Text>
-            <Text>{item.data_tarefa}</Text>
-          </View>
+          <Pressable
+            onPress={() => handleOpenTask(item.id_tarefa)}
+            style={({ pressed }) => [
+              {
+                transform: [{ scale: pressed ? 0.95 : 1 }],
+                height: "auto"
+              },
+            ]}
+          >
+            <View style={style.TaskContainer}>
+              <View style={style.text}>
+                <Text style={style.titulo}>{item.titulo}</Text>
+                <Text style={style.data}>{formatDate(item.data_tarefa)}</Text>
+              </View>
+              <View style={style.tagButton}>
+                <Pressable style={[global.pressable, style.completeButton]} />
+              </View>
+            </View>
+          </Pressable>
         )}
       />
       {openTask && (
@@ -152,7 +223,13 @@ export default function tasks() {
           transparent={true}
           onRequestClose={closeTask}
         >
-          <Task id={idTask} userId={userId} onCloseTask={closeTask} />
+          <Task
+            id={idTask}
+            userId={userId}
+            onCloseTask={closeTask}
+            onTaskCreated={handleNewTask}
+            onTaskDeleted={handleDeleteTask}
+          />
         </Modal>
       )}
     </View>
@@ -202,10 +279,57 @@ const CreateStyle = (theme: any) =>
       backgroundColor: theme.colors.backgroundAlt,
       marginTop: 30,
       borderRadius: 30,
-      borderWidth: 2,
+      borderWidth: 1.5,
       borderColor:
         theme.colors.background == "#fff"
           ? theme.colors.secundary
           : theme.colors.primary,
+      boxShadow: [
+        {
+          offsetX: 0,
+          offsetY: 4,
+          blurRadius: 10,
+          spreadDistance: 0,
+          color:
+            theme.colors.background == "#fff"
+              ? theme.colors.bgSecundary
+              : theme.colors.bgPrimary,
+          inset: false,
+        },
+      ],
+      gap: 5,
+    },
+    text: {
+      flexDirection: "row",
+      width: "100%",
+      justifyContent: "space-between",
+    },
+    tagButton: {
+      flexDirection: "row",
+      width: "100%",
+      justifyContent: "flex-end",
+    },
+    titulo: {
+      color: theme.colors.text,
+      fontSize: 14,
+      fontWeight: 500,
+    },
+    data: {
+      color:
+        theme.colors.background == "#fff"
+          ? theme.colors.secundary
+          : theme.colors.primary,
+      fontSize: 15,
+      fontWeight: 500,
+    },
+    completeButton: {
+      borderWidth: 1.5,
+      borderColor:
+        theme.colors.background == "#fff"
+          ? theme.colors.secundary
+          : theme.colors.primary,
+      borderRadius: 50,
+      width: 24,
+      height: 24,
     },
   });

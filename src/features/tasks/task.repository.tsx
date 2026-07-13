@@ -14,13 +14,18 @@ export async function saveTask(
   date: Date | null,
   userId: string,
 ) {
-  return await supabase.from("tarefa").insert({
-    titulo: title,
-    descricao: desc,
-    data_tarefa: date,
-    id_usuario: userId,
-  });
+  return await supabase
+    .from("tarefa")
+    .insert({
+      titulo: title,
+      descricao: desc,
+      data_tarefa: date,
+      id_usuario: userId,
+    })
+    .select()
+    .single();
 }
+
 export async function deleteTask(id: number) {
   return await supabase
     .from("tarefa")
