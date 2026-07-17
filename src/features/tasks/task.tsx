@@ -1,15 +1,32 @@
 // Importações
-import { View, Text, Pressable, TextInput, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  Platform,
+  Modal,
+} from "react-native";
 import { EnrichedMarkdownText } from "react-native-enriched-markdown";
 import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./task.style";
 import { BlurView } from "expo-blur";
-import { X, Pencil, Eye, Check, Save, Tag, Trash } from "lucide-react-native";
+import {
+  X,
+  Pencil,
+  Eye,
+  Check,
+  Save,
+  Tag,
+  Trash,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react-native";
 import GlobalStyle from "@themes/global-style";
 import { useState, useEffect } from "react";
 import { createMarkdownStyle } from "@themes/markdown-style";
-import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { Calendar, DateData, LocaleConfig } from "react-native-calendars";
+import { ptBR } from "@utils/localeCalendarConfig";
 import { deleteTask, getTask, saveTask } from "./task.repository";
 import Toast from "react-native-toast-message";
 
@@ -30,6 +47,8 @@ const Task = ({
     id === null ? new Date() : null,
   );
   const [editing, isEditing] = useState(id === null ? true : false);
+  const [calendar, setCalendar] = useState(false);
+  const [day, setDay] = useState<DateData>();
 
   // Definição de funções
   const handleEdit = () => {
@@ -103,6 +122,13 @@ const Task = ({
     });
   };
 
+  const handleOpenCalendar = () => {
+    setCalendar(true);
+  };
+
+  LocaleConfig.locales["pt-br"] = ptBR;
+  LocaleConfig.defaultLocale = "pt-br";
+
   return (
     <BlurView
       intensity={50}
@@ -117,6 +143,7 @@ const Task = ({
         </View>
         <View style={style.textContent}>
           <View style={style.topTextContent}>
+            {/* Título da tarefa */}
             {editing ? (
               <TextInput
                 style={[
@@ -144,31 +171,58 @@ const Task = ({
               </Text>
             )}
 
+            {/* Data da tarefa */}
             {editing ? (
-              Platform.OS === "ios" ? (
-                <DateTimePicker
-                  value={date ?? new Date()}
-                  mode="date"
-                  onValueChange={(event, selectedDate) => {
-                    if (selectedDate) {
-                      setDate(selectedDate);
-                    }
-                  }}
-                />
-              ) : (
-                <Pressable
-                  onPress={() =>
-                    DateTimePickerAndroid.open({
-                      value: date ?? new Date(),
-                      mode: "date",
-                      onChange: (event, selectedDate) => {
-                        if (selectedDate) {
-                          setDate(selectedDate);
-                        }
-                      },
-                    })
-                  }
+              calendar ? (
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  // onRequestClose={}
                 >
+                  <View style={style.modalView}>
+                    <View style={style.cancelButtonCalendarView}>
+                    <Pressable>
+                      <X color={theme.colors.background} />
+                    </Pressable>
+                    </View>
+                    <Calendar
+                      style={style.calendar}
+                      theme={{
+                        textMonthFontSize: 18,
+                        monthTextColor: theme.colors.background,
+                        todayTextColor:
+                          theme.colors.background == "#fff"
+                            ? theme.colors.secundary
+                            : theme.colors.primary,
+                        selectedDayBackgroundColor:
+                          theme.colors.background == "#fff"
+                            ? theme.colors.secundary
+                            : theme.colors.primary,
+                        selectedDayTextColor: theme.colors.background,
+                        arrowColor: theme.colors.background,
+                        calendarBackground: theme.colors.background,
+                        textDayStyle: { color: theme.colors.text },
+                      }}
+                      minDate={new Date().toDateString()}
+                      hideExtraDays
+                      renderArrow={(direction: "right" | "left") =>
+                        direction === "left" ? (
+                          <ChevronLeft color={theme.colors.background} />
+                        ) : (
+                          <ChevronRight color={theme.colors.background} />
+                        )
+                      }
+                      onDayPress={setDay}
+                      markedDates={
+                        day && {
+                          [day.dateString]: { selected: true },
+                        }
+                      }
+                    />
+                  </View>
+                </Modal>
+              ) : (
+                <Pressable onPress={handleOpenCalendar}>
                   <Text style={style.dateText}>
                     {date
                       ? date.toLocaleDateString("pt-BR", {

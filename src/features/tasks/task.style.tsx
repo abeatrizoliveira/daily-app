@@ -37,8 +37,8 @@ export const CreateStyle = (theme: any) =>
         theme.colors.background == "#fff"
           ? theme.colors.secundary
           : theme.colors.primary,
-          fontWeight: 600,
-          fontSize: 16,
+      fontWeight: 600,
+      fontSize: 16,
     },
     buttonContent: {
       alignItems: "flex-end",
@@ -73,4 +73,19 @@ export const CreateStyle = (theme: any) =>
           ? theme.colors.secundary
           : theme.colors.primary,
     },
+    calendar: {
+      backgroundColor:
+        theme.colors.background == "#fff"
+          ? theme.colors.secundary
+          : theme.colors.primary,
+    },
+    modalView: {
+
+    },
+    cancelButtonCalendarView : {
+      backgroundColor:
+        theme.colors.background == "#fff"
+          ? theme.colors.secundary
+          : theme.colors.primary,
+    }
   });

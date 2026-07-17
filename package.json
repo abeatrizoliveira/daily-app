@@ -31,6 +31,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.85.3",
+    "react-native-calendars": "^1.1314.0",
     "react-native-enriched-markdown": "^0.7.3",
     "react-native-markdown-display": "^7.0.2",
     "react-native-reanimated": "4.3.1",
