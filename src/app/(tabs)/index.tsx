@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../context/themeContext";
-import Header from "@shared/components/header/header";
 import { supabase } from "@utils/supabase";
 
 export default function App() {
@@ -26,7 +25,6 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text>Olá, mundo!</Text>
       </View>
     </View>
   );

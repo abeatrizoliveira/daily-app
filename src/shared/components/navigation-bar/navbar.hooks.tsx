@@ -13,7 +13,7 @@ export const useNavbar = () => {
     }
   };
   const getColor = (route: string) =>
-    pathname === route ? theme.colors.secundary : theme.colors.text;
+    pathname === route ? theme.colors.primary : theme.colors.text;
 
   return {
     pathname,
