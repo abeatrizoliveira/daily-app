@@ -16,10 +16,7 @@ export const CreateStyle = (theme: any) =>
       backgroundColor: theme.colors.backgroundAlt,
       borderRadius: 30,
       borderWidth: 2,
-      borderColor:
-        theme.colors.background == "#fff"
-          ? theme.colors.secundary
-          : theme.colors.primary,
+      borderColor: theme.colors.primary,
       padding: 20,
     },
     textContent: {
@@ -33,12 +30,11 @@ export const CreateStyle = (theme: any) =>
       justifyContent: "space-between",
     },
     dateText: {
-      color:
-        theme.colors.background == "#fff"
-          ? theme.colors.secundary
-          : theme.colors.primary,
+      color: theme.colors.primary,
       fontWeight: 600,
       fontSize: 16,
+      flexShrink: 0,
+      marginLeft: 8,
     },
     buttonContent: {
       alignItems: "flex-end",
@@ -58,34 +54,28 @@ export const CreateStyle = (theme: any) =>
       width: 40,
       height: 40,
       borderRadius: 10,
-      backgroundColor:
-        theme.colors.background == "#fff"
-          ? theme.colors.secundary
-          : theme.colors.primary,
+      backgroundColor: theme.colors.primary,
     },
     checkButton: {
       width: 44,
       height: 44,
       borderRadius: 10,
       borderWidth: 2,
-      borderColor:
-        theme.colors.background == "#fff"
-          ? theme.colors.secundary
-          : theme.colors.primary,
+      borderColor: theme.colors.primary,
     },
     calendar: {
-      backgroundColor:
-        theme.colors.background == "#fff"
-          ? theme.colors.secundary
-          : theme.colors.primary,
+      backgroundColor: theme.colors.primary,
     },
     modalView: {
-
+      bottom: 0,
+      width: "100%",
+      position: "absolute",
     },
-    cancelButtonCalendarView : {
-      backgroundColor:
-        theme.colors.background == "#fff"
-          ? theme.colors.secundary
-          : theme.colors.primary,
-    }
+    buttonsCalendarView: {
+      backgroundColor: theme.colors.primary,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
   });
