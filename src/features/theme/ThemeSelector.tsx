@@ -10,7 +10,12 @@ export const ThemeSelector = () => {
     <View style={style.container}>
       <View style={style.content}>
         <View style={style.textContent}>
-          <Sun color={theme.colors.text} size={32} strokeWidth={1.5} fill={theme.colors.text}/>
+          <Sun
+            color={theme.colors.text}
+            size={32}
+            strokeWidth={1.5}
+            fill={theme.colors.text}
+          />
           <Text style={style.text}>Claro</Text>
         </View>
         <Pressable
@@ -20,20 +25,18 @@ export const ThemeSelector = () => {
           style={style.pressable}
         >
           <View style={style.button}>
-            <View
-              style={[
-                style.buttonClicked,
-                themeMode === "light"
-                  ? { backgroundColor: theme.colors.secundary }
-                  : { backgroundColor: "transparent" },
-              ]}
-            ></View>
+            {themeMode === "light" && <View style={style.buttonClicked} />}
           </View>
         </Pressable>
       </View>
       <View style={style.content}>
         <View style={style.textContent}>
-          <Moon color={theme.colors.text} size={32} strokeWidth={0} fill={theme.colors.text}/>
+          <Moon
+            color={theme.colors.text}
+            size={32}
+            strokeWidth={0}
+            fill={theme.colors.text}
+          />
           <Text style={style.text}>Escuro</Text>
         </View>
         <Pressable
@@ -43,20 +46,18 @@ export const ThemeSelector = () => {
           style={style.pressable}
         >
           <View style={style.button}>
-            <View
-              style={[
-                style.buttonClicked,
-                themeMode === "dark"
-                  ? { backgroundColor: theme.colors.primary }
-                  : { backgroundColor: "transparent" },
-              ]}
-            ></View>
+            {themeMode === "dark" && <View style={style.buttonClicked} />}
           </View>
         </Pressable>
       </View>
       <View style={style.content}>
         <View style={style.textContent}>
-          <SunMoon color={theme.colors.text} size={32} strokeWidth={1.5} fill={theme.colors.text} />
+          <SunMoon
+            color={theme.colors.text}
+            size={32}
+            strokeWidth={1.5}
+            fill={theme.colors.text}
+          />
           <Text style={style.text}>Sistema</Text>
         </View>
         <Pressable
@@ -66,14 +67,7 @@ export const ThemeSelector = () => {
           style={style.pressable}
         >
           <View style={style.button}>
-            <View
-              style={[
-                style.buttonClicked,
-                themeMode === "system"
-                  ? { backgroundColor: theme.colors.background === "#fff" ? theme.colors.secundary : theme.colors.primary  }
-                  : { backgroundColor: "transparent" },
-              ]}
-            ></View>
+            {themeMode === "system" && <View style={style.buttonClicked} />}
           </View>
         </Pressable>
       </View>
