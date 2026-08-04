@@ -4,6 +4,7 @@ import { useTheme } from "../../../context/themeContext";
 import { usePathname } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ChevronLeft, Settings } from "lucide-react-native";
+import { router } from "expo-router";
 
 const Header = () => {
   // Definição de variáveis: estilo, caminho, tema...
@@ -17,33 +18,34 @@ const Header = () => {
     "/": "Home",
     "/tasks": "Tarefas",
     "/pomodoro": "Pomodoro",
-    "/configuracao": "Voltar",
+    "/configuration": "Voltar",
     "/temas": "Voltar",
     "/usuario": "Voltar",
   };
 
   // Telas com o botão de voltar
-  const showBackButton = [
-    "/configuracao",
-    "/temas",
-    "/usuario"
-    ].includes(path);
+  const showBackButton = ["/configuration", "/temas", "/usuario"].includes(path);
 
   // Telas com o botão de configuração
-  const showConfigButton = [
-    "/tasks", 
-    "/",
-    "pomodoro"
-  ].includes(path);
+  const showConfigButton = ["/tasks", "/", "pomodoro"].includes(path);
+
+  // Função para ir para tela de configuração
+  const handleConfig = () => {
+    router.navigate("/configuration");
+  };
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <View style={[style.container, { paddingTop: insets.top }]}>
       <View style={style.content}>
         <View style={style.btnText}>
-
           {/* Botão de voltar */}
           {showBackButton && (
-            <Pressable>
+            <Pressable 
+            onPress={handleBack}>
               <ChevronLeft color={theme.colors.text} />
             </Pressable>
           )}
@@ -57,11 +59,10 @@ const Header = () => {
 
       {/* Botão de configuração */}
       {showConfigButton && (
-        <Pressable>
+        <Pressable onPress={handleConfig}>
           <Settings color={theme.colors.text} size={24} />
         </Pressable>
       )}
-
     </View>
   );
 };
