@@ -39,7 +39,7 @@ const Header = () => {
   };
 
   return (
-    <View style={[style.container, { paddingTop: insets.top }]}>
+    <View style={[style.container, { paddingTop: insets.top + 10 }]}>
       <View style={style.content}>
         <View style={style.btnText}>
           {/* Botão de voltar */}

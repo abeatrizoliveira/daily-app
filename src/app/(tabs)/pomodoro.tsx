@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function pomodoro() {
+export default function Pomodoro() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>

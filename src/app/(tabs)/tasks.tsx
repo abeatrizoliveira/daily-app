@@ -20,6 +20,7 @@ import { supabase } from "@utils/supabase";
 import GlobalStyle from "@themes/global-style";
 import { deleteTask } from "@features/tasks/task.repository";
 import Toast from "react-native-toast-message";
+import useWeather from "@features/home/home.hooks";
 
 interface Tarefa {
   id_tarefa: number;
@@ -45,6 +46,9 @@ export default function Tasks() {
   const { theme } = useTheme();
   const style = CreateStyle(theme);
   const global = GlobalStyle(theme);
+  const { hour } = useWeather();
+  const tasktime =
+    hour < 12 ? "seu dia" : hour <= 17 ? "sua tarde" : "sua noite";
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -165,14 +169,6 @@ export default function Tasks() {
     });
   }
 
-  if (loading) {
-    return (
-      <View style={style.container}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </View>
-    );
-  }
-
   return (
     <View style={style.container}>
       {/* Barra de Ações Superior */}
@@ -211,61 +207,71 @@ export default function Tasks() {
           </Pressable>
         </View>
       </View>
+      {loading ? (
+        <View style={style.container}>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+        </View>
+      ) : (
+        <>
+          {/* Lista de Tasks Ordenada */}
+          <FlatList
+            style={{ width: "100%" }}
+            data={sortedTasks}
+            keyExtractor={(item: Tarefa) => item.id_tarefa.toString()}
+            renderItem={({ item }: { item: Tarefa }) => (
+              <Pressable
+                onPress={() => handleOpenExistingTask(item.id_tarefa)}
+                style={({ pressed }) => [
+                  { transform: [{ scale: pressed ? 0.98 : 1 }] },
+                ]}
+              >
+                <View style={style.TaskContainer}>
+                  <View style={style.text}>
+                    <Text style={style.titulo}>{item.titulo || "Sem título"}</Text>
+                    <Text style={style.data}>{formatDate(item.data_tarefa)}</Text>
+                  </View>
 
-      {/* Lista de Tasks Ordenada */}
-      <FlatList
-        style={{ width: "100%" }}
-        data={sortedTasks}
-        keyExtractor={(item) => item.id_tarefa.toString()}
-        renderItem={({ item }) => (
-          <Pressable
-            onPress={() => handleOpenExistingTask(item.id_tarefa)}
-            style={({ pressed }) => [
-              { transform: [{ scale: pressed ? 0.98 : 1 }] },
-            ]}
-          >
-            <View style={style.TaskContainer}>
-              <View style={style.text}>
-                <Text style={style.titulo}>{item.titulo || "Sem título"}</Text>
-                <Text style={style.data}>{formatDate(item.data_tarefa)}</Text>
+                  <View style={style.tagButton}>
+                    <Pressable
+                      onPress={() => handleQuickComplete(item.id_tarefa)}
+                      style={[global.pressable, style.completeButton]}
+                    >
+                      <Check size={14} color={theme.colors.primary} />
+                    </Pressable>
+                  </View>
+                </View>
+              </Pressable>
+            )}
+            ListEmptyComponent={
+              <View style={style.viewInfoTextTask}>
+                <Text style={style.infoTextTask}>
+                  {" "}
+                  Você não tem tarefas pendentes! :)
+                </Text>
+
+                <Text style={style.infoTextTask}> Aproveite {tasktime}.</Text>
               </View>
-
-              <View style={style.tagButton}>
-                <Pressable
-                  onPress={() => handleQuickComplete(item.id_tarefa)}
-                  style={[global.pressable, style.completeButton]}
-                >
-                  <Check size={14} color={theme.colors.primary} />
-                </Pressable>
-              </View>
-            </View>
-          </Pressable>
-        )}
-        ListEmptyComponent={
-          <View style={style.viewInfoTextTask}>
-            <Text style={style.infoTextTask}> Você não tem tarefas pendentes! :)</Text>
-            {/* Pegar indo do dispositivo e colocar "seu dia" ou "sua noite" */}
-            <Text style={style.infoTextTask}> Aproveite.</Text>
-          </View>
-        }
-      />
-
-      {/* Modal de Detalhes / Criação */}
-      {openTaskModal && (
-        <Modal
-          animationType="slide"
-          transparent
-          onRequestClose={() => setOpenTaskModal(false)}
-        >
-          <Task
-            id={selectedTaskId}
-            userId={userId}
-            onCloseTask={() => setOpenTaskModal(false)}
-            onTaskCreated={handleTaskCreated}
-            onTaskUpdated={handleTaskUpdated}
-            onTaskDeleted={handleTaskDeleted}
+            }
           />
-        </Modal>
+
+          {/* Modal de Detalhes / Criação */}
+          {openTaskModal && (
+            <Modal
+              animationType="slide"
+              transparent
+              onRequestClose={() => setOpenTaskModal(false)}
+            >
+              <Task
+                id={selectedTaskId}
+                userId={userId}
+                onCloseTask={() => setOpenTaskModal(false)}
+                onTaskCreated={handleTaskCreated}
+                onTaskUpdated={handleTaskUpdated}
+                onTaskDeleted={handleTaskDeleted}
+              />
+            </Modal>
+          )}
+        </>
       )}
     </View>
   );

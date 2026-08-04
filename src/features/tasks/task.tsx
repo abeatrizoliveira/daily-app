@@ -161,7 +161,6 @@ const Task = ({
     setDate(null);
     setCalendarOpen(false);
   };
-
   return (
     <BlurView intensity={50} blurMethod="dimezisBlurView" style={style.container}>
       <View style={style.taskContainer}>
@@ -265,15 +264,21 @@ const Task = ({
             <TextInput
               style={global.p}
               placeholder="Descrição da tarefa..."
+              placeholderTextColor={theme.colors.textAlt}
               value={desc}
               onChangeText={setDesc}
               multiline
             />
           ) : (
             <EnrichedMarkdownText
-              markdown={desc || "*Sem descrição*"}
+              markdown={desc || "Sem descrição"}
               flavor="github"
-              markdownStyle={{}}
+              markdownStyle={{
+                paragraph : {
+                  color: desc == null ? theme.colors.textAlt : theme.colors.text,
+                  fontSize: 14,
+                }
+              }}
             />
           )}
         </View>

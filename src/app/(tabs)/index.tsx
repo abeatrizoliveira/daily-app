@@ -1,5 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
-import { useTheme } from "../../context/themeContext";
+import Home from "@features/home/home";
 import { supabase } from "@utils/supabase";
 
 export default function App() {
@@ -19,27 +18,5 @@ export default function App() {
   }
   loginUsuario();
 
-  const { theme } = useTheme();
-  const styles = CreateStyle(theme);
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-      </View>
-    </View>
-  );
+  return <Home></Home>;
 }
-
-const CreateStyle = (theme: any) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-      position: "relative",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    content: {
-      padding: 25,
-    },
-  });

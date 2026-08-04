@@ -2,6 +2,7 @@
   "expo": {
     "name": "daily-app",
     "slug": "daily-app",
+    "scheme": "dailyapp",
     "version": "1.0.0",
     "userInterfaceStyle": "automatic",
     "plugins": [
@@ -25,7 +26,11 @@
     "icon": "./assets/img/icon.png",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.dailyapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
