@@ -1,0 +1,52 @@
+import { View, Text, Pressable } from "react-native";
+import { useTheme } from "../../context/themeContext";
+import { CreateStyle } from "./configuration.style";
+import GlobalStyle from "@themes/global-style";
+import { ChevronRight } from "lucide-react-native";
+
+export default function Configuration() {
+  const { theme } = useTheme();
+  const global = GlobalStyle(theme);
+  const style = CreateStyle(theme);
+
+  return (
+    <View style={style.container}>
+      <View style={style.content}>
+        <Text style={global.h2}>Configuração</Text>
+        <Text style={global.p}>
+          Aqui você pode visualizar e/ou alterar suas informações e o tema do
+          aplicativo.
+        </Text>
+        <View style={style.viewButtons}>
+          <Pressable
+            style={({ pressed }) => [
+              style.button,
+              {
+                // Destaca o botão visualmente quando a ordenação por data está ativa
+                opacity: pressed ? 0.8 : 1,
+                transform: [{ scale: pressed ? 0.95 : 1 }],
+              },
+            ]}
+          >
+            <Text style={[global.p, { fontSize: 16 }]}>Minha conta</Text>
+            <ChevronRight />
+          </Pressable>
+
+          <Pressable
+            style={({ pressed }) => [
+              style.button,
+              {
+                // Destaca o botão visualmente quando a ordenação por data está ativa
+                opacity: pressed ? 0.8 : 1,
+                transform: [{ scale: pressed ? 0.95 : 1 }],
+              },
+            ]}
+          >
+            <Text style={[global.p, { fontSize: 16 }]}>Tema do aplicativo</Text>
+            <ChevronRight />
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  );
+}
