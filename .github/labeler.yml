@@ -1,17 +1,15 @@
 docs:
   - changed-files:
-      - any-glob-to-any-file: 'docs/**'
-  - head-branch:
-      - '^docs\/.*'
+      - any-glob-to-any-file: docs/**
 
 feat:
   - head-branch:
-      - '^feat\/.*'
+      - '^feat'
 
 refactor:
   - head-branch:
-      - '^refactor\/.*'
+      - '^refactor'
 
 fix:
   - head-branch:
-      - '^fix\/.*'
+      - '^fix'

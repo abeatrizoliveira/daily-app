@@ -1,0 +1,81 @@
+import { StyleSheet } from "react-native";
+
+export const CreateStyle = (theme: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      width: "100%",
+      backgroundColor: "transparent",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative",
+    },
+    taskContainer: {
+      height: "70%",
+      width: "80%",
+      backgroundColor: theme.colors.backgroundAlt,
+      borderRadius: 30,
+      borderWidth: 2,
+      borderColor: theme.colors.primary,
+      padding: 20,
+    },
+    textContent: {
+      height: "85%",
+    },
+    topTextContent: {
+      flexDirection: "row",
+      width: "100%",
+      height: "auto",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    dateText: {
+      color: theme.colors.primary,
+      fontWeight: 600,
+      fontSize: 16,
+      flexShrink: 0,
+      marginLeft: 8,
+    },
+    buttonContent: {
+      alignItems: "flex-end",
+      height: 32,
+    },
+    buttonsContainer: {
+      height: "10%",
+      alignItems: "flex-end",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    normalButton: {
+      gap: 10,
+      flexDirection: "row",
+    },
+    button: {
+      width: 40,
+      height: 40,
+      borderRadius: 10,
+      backgroundColor: theme.colors.primary,
+    },
+    checkButton: {
+      width: 44,
+      height: 44,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: theme.colors.primary,
+    },
+    calendar: {
+      backgroundColor: theme.colors.primary,
+    },
+    modalView: {
+      bottom: 0,
+      width: "100%",
+      position: "absolute",
+    },
+    buttonsCalendarView: {
+      backgroundColor: theme.colors.primary,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
+  });
