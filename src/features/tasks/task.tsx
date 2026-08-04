@@ -161,7 +161,6 @@ const Task = ({
     setDate(null);
     setCalendarOpen(false);
   };
-console.log(desc)
   return (
     <BlurView intensity={50} blurMethod="dimezisBlurView" style={style.container}>
       <View style={style.taskContainer}>
