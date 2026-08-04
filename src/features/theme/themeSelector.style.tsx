@@ -31,21 +31,19 @@ export const CreateStyle = (theme: any) =>
       alignItems: "center",
       verticalAlign: "auto",
     },
-    button: {
+   button: {
       borderWidth: 1.5,
       borderColor: theme.colors.text,
-      backgroundColor: "transparent",
       height: 24,
       width: 24,
       borderRadius: 12,
       justifyContent: "center",
-      alignContent: "center",
       alignItems: "center",
-      verticalAlign: "auto",
     },
     buttonClicked: {
-      height: 14,
-      width: 14,
-      borderRadius: 12,
+      height: 12,
+      width: 12,
+      borderRadius: 6,
+      backgroundColor: theme.colors.primary,
     },
   });

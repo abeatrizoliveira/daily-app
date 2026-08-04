@@ -3,11 +3,16 @@ import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./configuration.style";
 import GlobalStyle from "@themes/global-style";
 import { ChevronRight } from "lucide-react-native";
+import { router } from "expo-router";
 
 export default function Configuration() {
   const { theme } = useTheme();
   const global = GlobalStyle(theme);
   const style = CreateStyle(theme);
+
+  const handleNavigation = (pathname: string) => {
+    router.navigate(pathname);
+  };
 
   return (
     <View style={style.container}>
@@ -19,6 +24,7 @@ export default function Configuration() {
         </Text>
         <View style={style.viewButtons}>
           <Pressable
+            onPress={() => handleNavigation("/account")}
             style={({ pressed }) => [
               style.button,
               {
@@ -29,10 +35,11 @@ export default function Configuration() {
             ]}
           >
             <Text style={[global.p, { fontSize: 16 }]}>Minha conta</Text>
-            <ChevronRight />
+            <ChevronRight color={theme.colors.text} />
           </Pressable>
 
           <Pressable
+            onPress={() => handleNavigation("/themes")}
             style={({ pressed }) => [
               style.button,
               {
@@ -43,7 +50,7 @@ export default function Configuration() {
             ]}
           >
             <Text style={[global.p, { fontSize: 16 }]}>Tema do aplicativo</Text>
-            <ChevronRight />
+            <ChevronRight color={theme.colors.text}/>
           </Pressable>
         </View>
       </View>

@@ -19,12 +19,12 @@ const Header = () => {
     "/tasks": "Tarefas",
     "/pomodoro": "Pomodoro",
     "/configuration": "Voltar",
-    "/temas": "Voltar",
+    "/themes": "Voltar",
     "/usuario": "Voltar",
   };
 
   // Telas com o botão de voltar
-  const showBackButton = ["/configuration", "/temas", "/usuario"].includes(path);
+  const showBackButton = ["/configuration", "/themes", "/usuario"].includes(path);
 
   // Telas com o botão de configuração
   const showConfigButton = ["/tasks", "/", "pomodoro"].includes(path);
