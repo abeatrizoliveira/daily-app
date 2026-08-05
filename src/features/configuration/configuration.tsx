@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./configuration.style";
 import GlobalStyle from "@themes/global-style";
@@ -50,9 +50,18 @@ export default function Configuration() {
             ]}
           >
             <Text style={[global.p, { fontSize: 16 }]}>Tema do aplicativo</Text>
-            <ChevronRight color={theme.colors.text}/>
+            <ChevronRight color={theme.colors.text} />
           </Pressable>
         </View>
+
+        <Image
+          style={style.tinyLogo}
+          source={
+            theme.colors.background === "#fff"
+              ? require("@assets/img/daily_bee_lt.png")
+              : require("@assets/img/daily_bee_dk.png")
+          }
+        />
       </View>
     </View>
   );

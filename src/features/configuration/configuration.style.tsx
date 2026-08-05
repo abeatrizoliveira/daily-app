@@ -10,6 +10,7 @@ export const CreateStyle = (theme: any) =>
     },
     content: {
       padding: 25,
+      height: "100%"
     },
     button: {
         height: 55,
@@ -24,5 +25,12 @@ export const CreateStyle = (theme: any) =>
     viewButtons: {
         marginTop: 30,
         gap: 30
+    },
+    tinyLogo: {
+      width: 98,
+      height: 30,
+      alignSelf: "center",
+    position: "absolute",
+      bottom: 25
     }
   });
