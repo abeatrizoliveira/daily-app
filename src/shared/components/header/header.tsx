@@ -18,20 +18,20 @@ const Header = () => {
     "/": "Home",
     "/tasks": "Tarefas",
     "/pomodoro": "Pomodoro",
-    "/configuration": "Voltar",
+    "/settings": "Voltar",
     "/themes": "Voltar",
     "/usuario": "Voltar",
   };
 
   // Telas com o botão de voltar
-  const showBackButton = ["/configuration", "/themes", "/usuario"].includes(path);
+  const showBackButton = ["/settings", "/themes", "/usuario"].includes(path);
 
   // Telas com o botão de configuração
   const showConfigButton = ["/tasks", "/", "pomodoro"].includes(path);
 
   // Função para ir para tela de configuração
   const handleConfig = () => {
-    router.navigate("/configuration");
+    router.navigate("/settings");
   };
 
   const handleBack = () => {
@@ -44,8 +44,7 @@ const Header = () => {
         <View style={style.btnText}>
           {/* Botão de voltar */}
           {showBackButton && (
-            <Pressable 
-            onPress={handleBack}>
+            <Pressable onPress={handleBack}>
               <ChevronLeft color={theme.colors.text} />
             </Pressable>
           )}

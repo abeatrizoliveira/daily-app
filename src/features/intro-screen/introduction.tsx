@@ -4,11 +4,20 @@ import { useTheme } from "../../context/themeContext";
 import { CreateStyle } from "./introduction.style";
 import { Svg, RadialGradient, Defs, Rect, Stop } from "react-native-svg";
 import { StyleSheet } from "react-native";
-import GlobalStyle from "@themes/global-style";
+import { router } from "expo-router";
 
 export default function Intro() {
   const { theme } = useTheme();
   const style = CreateStyle(theme);
+
+  function handleLogin() {
+    router.navigate("/login");
+  }
+
+  function handleCadastro() {
+    router.navigate("/signup");
+  }
+
   return (
     <View style={style.container}>
       <Svg style={StyleSheet.absoluteFill}>
@@ -30,7 +39,7 @@ export default function Intro() {
         <Text
           style={{ fontSize: 40, fontWeight: 700, color: theme.colors.text }}
         >
-          Olá, <Text style={{ color: theme.colors.primary }}>bem-vindo!</Text>
+          Olá, <Text style={{ color: theme.colors.primary }}>bem-vindo</Text>!
         </Text>
         <Text
           style={{
@@ -58,16 +67,24 @@ export default function Intro() {
           }}
         >
           <Pressable
-            style={[style.button, { backgroundColor: theme.colors.primary }]}
+            onPress={handleCadastro}
+            style={({ pressed }) => [
+              { transform: [{ scale: pressed ? 0.98 : 1 }] },
+              [style.button, { backgroundColor: theme.colors.primary }],
+            ]}
           >
             <Text style={{ color: theme.colors.background, fontWeight: 600 }}>
               Criar conta
             </Text>
           </Pressable>
           <Pressable
-            style={[
-              style.button,
-              { borderWidth: 3, borderColor: theme.colors.primary },
+            onPress={handleLogin}
+            style={({ pressed }) => [
+              { transform: [{ scale: pressed ? 0.98 : 1 }] },
+              [
+                style.button,
+                { borderWidth: 3, borderColor: theme.colors.primary },
+              ],
             ]}
           >
             <Text style={{ color: theme.colors.primary, fontWeight: 600 }}>

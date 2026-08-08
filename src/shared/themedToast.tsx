@@ -1,6 +1,6 @@
 // components/ThemedToast.tsx
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
-import { useTheme } from "../../context/themeContext";
+import { useTheme } from "../context/themeContext";
 
 export default function ThemedToast() {
   const { theme } = useTheme();

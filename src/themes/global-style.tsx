@@ -11,8 +11,8 @@ const GlobalStyle = (theme: any) =>
       verticalAlign: "auto",
     },
     h1: {
-      fontSize: 32,
-      fontWeight: 600,
+      fontSize: 40,
+      fontWeight: 700,
       color: theme.colors.text,
     },
     h2: {

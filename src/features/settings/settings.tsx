@@ -1,11 +1,11 @@
 import { View, Text, Pressable, Image } from "react-native";
 import { useTheme } from "../../context/themeContext";
-import { CreateStyle } from "./configuration.style";
+import { CreateStyle } from "./settings.style";
 import GlobalStyle from "@themes/global-style";
 import { ChevronRight } from "lucide-react-native";
 import { router } from "expo-router";
 
-export default function Configuration() {
+export default function Settings() {
   const { theme } = useTheme();
   const global = GlobalStyle(theme);
   const style = CreateStyle(theme);

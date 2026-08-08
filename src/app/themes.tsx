@@ -1,4 +1,4 @@
-import ThemesConfig from "@features/configuration/themes";
+import ThemesConfig from "@features/settings/themes";
 export default function Themes() {
   return <ThemesConfig/>;
 }
